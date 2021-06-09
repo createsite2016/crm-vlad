@@ -1,2 +1,4 @@
-@import 'adminLTE/css/adminlte.min.css';
+@import "adminLTE/css/adminlte.css";
 @import '../plugins/fontawesome-free/css/all.min.css';
+@import '../plugins/daterangepicker/daterangepicker.css';
+@import '../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css';
