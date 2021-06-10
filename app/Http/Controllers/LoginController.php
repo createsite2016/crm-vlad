@@ -12,11 +12,7 @@ class LoginController extends Controller
      */
     public function index()
     {
-        if (Auth::user()) {
-            return redirect()->route('user.index');
-        } else {
-            return view('page.user.login.index');
-        }
+        return view('page.user.login.index');
     }
 
     /**

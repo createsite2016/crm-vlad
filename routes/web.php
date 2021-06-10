@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Route;
 // -----------------------------------------------------------------------------
 //  Аудентификация
 // -----------------------------------------------------------------------------
-Route::get('user/login/', [LoginController::class, 'index'])->name('user.login.index');
-Route::post('user/login/', [LoginController::class, 'store'])->name('user.login.store');
+Route::get('user/login/', [LoginController::class, 'index'])->name('user.login.index')->middleware('guest');
+Route::post('user/login/', [LoginController::class, 'store'])->name('user.login.store')->middleware('guest');
 
 // -----------------------------------------------------------------------------
 //  Регистрация
