@@ -153,7 +153,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/user/staffs/" class="nav-link">
+                                <a href="/user/cities/" class="nav-link">
                                     <i class="fas fa-city"></i>
                                     <p>
                                         Города
