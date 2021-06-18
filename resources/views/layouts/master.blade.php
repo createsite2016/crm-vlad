@@ -106,7 +106,7 @@
                     <li class="nav-item">
                         <a href="/user/tasks/" class="nav-link">
                             <i class="fas fa-list-ul"></i>
-                            <p>Заявки</p>
+                            <p>Задачи</p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -116,9 +116,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/user/objects/" class="nav-link">
+                        <a href="/user/companies/" class="nav-link">
                             <i class="far fa-building"></i>
-                            <p>Объекты</p>
+                            <p>Компании</p>
                         </a>
                     </li>
                     <li class="nav-item">

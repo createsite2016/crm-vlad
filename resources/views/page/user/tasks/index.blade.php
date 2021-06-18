@@ -8,12 +8,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Заявки</h1>
+                    <h1 class="m-0">Задачи</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="/user">Главная</a></li>
-                        <li class="breadcrumb-item active">заявки</li>
+                        <li class="breadcrumb-item active">задачи</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -27,13 +27,13 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Все заявки</h3>
+                    <h3 class="card-title">Все задачи</h3>
 
                     <div class="card-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
                                 <i class="fas fa-plus-circle"></i>
-                                Новая заявка
+                                Новая задача
                             </button>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
             <div class="modal-content">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Создание новой заявки</h3>
+                        <h3 class="card-title">Создание новой задачи</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -85,7 +85,7 @@
                             <div class="form-group">
                                 <label for="exampleSelectRounded0">
                                     <i class="far fa-building"></i>
-                                    Объект
+                                    Компания
                                 </label>
                                 <select class="custom-select rounded-0" id="exampleSelectRounded0">
                                     <option>объект 1</option>
@@ -97,7 +97,7 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">
                                     <i class="far fa-edit"></i>
-                                    Описание заявки
+                                    Описание задачи
                                 </label>
                                 <textarea class="form-control" rows="3" placeholder="в свободной форме"></textarea>
                             </div>
