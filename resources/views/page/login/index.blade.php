@@ -13,14 +13,14 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="/user"><b>Admin</b>LTE</a>
+        <a href="/user"><b>OZBERG</b></a>
     </div>
     <!-- /.login-logo -->
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">Войдите, чтобы начать работу</p>
 
-            <form action="{{ route('user.login.store') }}" method="post">
+            <form action="{{ route('login.store') }}" method="post">
                 @csrf
                 <div class="input-group mb-3">
                     <span class="text-danger">@error('email'){{ $message }} @enderror</span><br>

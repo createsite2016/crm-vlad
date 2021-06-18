@@ -13,7 +13,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="/user"><b>Admin</b>LTE</a>
+        <a href="/user"><b>OZBERG</b></a>
     </div>
     <!-- /.login-logo -->
     <div class="card">
