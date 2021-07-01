@@ -31,9 +31,11 @@ class RegistrationRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'phone' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
-            'key' => [ Rule::in('19216801')],
+            'role_id' => 'required|integer',
+            'city_id' => 'required|integer',
         ];
     }
 
@@ -41,9 +43,12 @@ class RegistrationRequest extends FormRequest
     {
         return [
             'name.required' => 'Имя не корректно',
+            'phone.required' => 'Номер телефона не корректный',
             'email.required' => 'Email не корректный',
+            'email.unique' => 'Такой email уже существует',
             'password.required' => 'Пароль не корректный',
-            'key.in' => 'секретный ключ не верный',
+            'role_id.required' => 'Не выбрана роль пользователя',
+            'city_id.required' => 'Не выбран город пользователя',
         ];
     }
 }

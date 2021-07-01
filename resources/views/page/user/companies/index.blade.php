@@ -48,17 +48,35 @@
                             <th>Телефон</th>
                             <th>Адрес</th>
                             <th>Город</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
+                        @foreach($companies as $company)
                         <tr>
-                            <td>1</td>
-                            <td>Компания 1</td>
-                            <td>+79991234567</td>
-                            <td>г. Москва, ул. Пушкина, дом Тарахтушкина</td>
-                            <td>г. Москва</td>
+                            <td>{{ $company->id }}</td>
+                            <td>{{ $company->name }}</td>
+                            <td>{!! $company->phone !!}</td>
+                            <td>{{ $company->address }}</td>
+                            <td>{{ $company->city->name }}</td>
+                            <td>
+                                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-item">
+                                        <i class="fas fa-edit"></i>
+                                        <a href="{{ route('user.companies.edit', $company->id) }}">Изменить</a>
+                                    </li>
+                                    <li class="dropdown-divider"></li>
+                                    <li class="dropdown-item danger">
+                                        <i class="far fa-trash-alt"></i>
+                                        <a href="{{ route('user.companies.destroy', $company->id) }}">Удалить</a>
+                                    </li>
+                                </ul>
+                            </td>
                         </tr>
-
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -77,14 +95,15 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form>
+                    <form method="post" action="{{ route('user.companies.store') }}">
+                        @csrf
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="exampleSelectRounded0">
                                     <i class="fas fa-file-signature"></i>
                                     Название компании
                                 </label>
-                                <input type="text" class="form-control" placeholder="Название компании">
+                                <input type="text" name="name" class="form-control" placeholder="Название компании">
                             </div>
 
                             <div class="form-group">
@@ -92,7 +111,7 @@
                                     <i class="fas fa-phone-alt"></i>
                                     Телефон компании
                                 </label>
-                                <input type="text" class="form-control" placeholder="+79991234567">
+                                <input type="text" name="phone" class="form-control" placeholder="+79991234567">
                             </div>
 
                             <div class="form-group">
@@ -100,7 +119,7 @@
                                     <i class="fas fa-map-marked-alt"></i>
                                     Адрес компании
                                 </label>
-                                <input type="text" class="form-control" placeholder="+79991234567">
+                                <input type="text" name="address" class="form-control" placeholder="Москва, ул. Пушкина, дом 3">
                             </div>
 
                             <div class="form-group">
@@ -108,10 +127,16 @@
                                     <i class="fas fa-exclamation-circle"></i>
                                     Город
                                 </label>
-                                <select class="custom-select rounded-0" id="exampleSelectRounded0">
-                                    <option>Москва</option>
-                                    <option>Казань</option>
-                                    <option>Самара</option>
+                                @error('city_id')
+                                <br>
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                                @enderror
+                                <select name="city_id" class="custom-select rounded-0">
+                                    @foreach($cities as $city)
+                                        <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -119,7 +144,7 @@
 
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-                            <button type="button" class="btn btn-primary">Добавить</button>
+                            <button type="submit" class="btn btn-primary">Добавить</button>
                         </div>
                     </form>
                 </div>

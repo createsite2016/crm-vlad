@@ -36,6 +36,19 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
+                    @error('phone')
+                    <div class="input-group mb-3">
+                        <span class="text-danger">{{ $message }}</span>
+                    </div>
+                    @enderror
+                    <input type="text" name="phone" class="form-control" placeholder="Номер телефона сотрудника" value="{{ old('phone') }}">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
                     @error('email')
                     <div class="input-group mb-3">
                         <span class="text-danger">{{ $message }}</span>
@@ -61,18 +74,39 @@
                         </div>
                     </div>
                 </div>
-                <div class="input-group mb-3">
-                    @error('key')
-                    <div class="input-group mb-3">
-                        <span class="text-danger">{{ $message }}</span>
-                    </div>
+                <div class="form-group">
+                    <label for="exampleSelectRounded0">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Роль
+                    </label>
+                    @error('role_id')
+                    <br>
+                    <span class="text-danger">
+                                    {{ $message }}
+                                </span>
                     @enderror
-                    <input type="password" name="key" class="form-control" placeholder="ключ">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <i class="fas fa-key"></i>
-                        </div>
-                    </div>
+                    <select name="role_id" class="custom-select rounded-0">
+                        @foreach($roles as $role)
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleSelectRounded0">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Город
+                    </label>
+                    @error('city_id')
+                    <br>
+                    <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                    @enderror
+                    <select name="city_id" class="custom-select rounded-0">
+                        @foreach($cities as $city)
+                            <option value="{{ $city->id }}">{{ $city->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="social-auth-links text-center mb-3">
                     <button type="submit" class="btn btn-block btn-primary">

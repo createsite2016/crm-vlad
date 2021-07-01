@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CompanyPostRequest;
+use App\Models\City;
 use App\Models\Company;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
 {
@@ -15,13 +20,18 @@ class CompanyController extends Controller
      */
     public function index(): View
     {
-        return view('page.user.companies.index');
+        $cities = DB::table('cities')->get();
+        $companies = Company::all();
+        return view('page.user.companies.index', [
+            'cities' => $cities,
+            'companies' => $companies
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -31,19 +41,21 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CompanyPostRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CompanyPostRequest $request): RedirectResponse
     {
-        //
+        Company::create($request->validated());
+
+        return redirect()->route('user.companies.store');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
+     * @param Company $company
+     * @return Response
      */
     public function show(Company $company)
     {
@@ -53,34 +65,47 @@ class CompanyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
+     * @param Company $id
+     * @return View
      */
-    public function edit(Company $company)
+    public function edit(Company $company): View
     {
-        //
+        $company = Company::find($company->id);
+        $cities = DB::table('cities')->get();
+        return view('page.user.companies.edit', [
+            'cities' => $cities,
+            'company' => $company
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
+     * @param CompanyPostRequest $request
+     * @param Company $company
+     * @return RedirectResponse
      */
-    public function update(Request $request, Company $company)
+    public function update(CompanyPostRequest $request, Company $company): RedirectResponse
     {
-        //
+        $company = Company::findOrFail($company->id);
+        $company->update($request->all());
+
+        return redirect()->route('user.companies.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
+     * @param Company $company
+     * @return RedirectResponse
      */
-    public function destroy(Company $company)
+    public function destroy(Company $company): RedirectResponse
     {
-        //
+        $company = Company::find($company->id);
+        if ($company){
+            $company->delete();
+        }
+
+        return redirect()->route('user.companies.index');
     }
 }

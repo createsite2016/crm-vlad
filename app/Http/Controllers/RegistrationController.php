@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegistrationRequest;
+use App\Models\City;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +16,9 @@ class RegistrationController extends Controller
      */
     public function index()
     {
-        return view('page.user.registration.index');
+        $cities = City::all();
+        $roles = Role::all();
+        return view('page.user.registration.index', compact('cities', 'roles'));
     }
 
     /**
@@ -24,7 +28,7 @@ class RegistrationController extends Controller
     {
         $user = User::create($request->validated());
 
-        Auth::login($user);
+        //Auth::login($user);
 
         return redirect()->route('user.index');
     }

@@ -28,7 +28,12 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Города</h3>
-
+                    @error('name')
+                    <br>
+                    <span class="text-danger">
+                        {{ $message }}
+                    </span>
+                    @enderror
                     <div class="card-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
@@ -45,14 +50,32 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Название города</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
+                        @foreach( $cities as $city)
                         <tr>
-                            <td>1</td>
-                            <td>Москва</td>
+                            <td>{{ $city->id }}</td>
+                            <td>{{ $city->name }}</td>
+                            <td>
+                                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdown-item">
+                                            <i class="fas fa-edit"></i>
+                                            <a href="{{ route('user.cities.edit', $city->id) }}">Изменить</a>
+                                        </li>
+                                        <li class="dropdown-divider"></li>
+                                        <li class="dropdown-item danger">
+                                            <i class="far fa-trash-alt"></i>
+                                            <a href="{{ route('user.cities.destroy', $city->id) }}">Удалить</a>
+                                        </li>
+                                    </ul>
+                            </td>
                         </tr>
-
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -71,21 +94,22 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form>
+                    <form method="post" action="{{ route('user.cities.store') }}">
+                        @csrf
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="exampleSelectRounded0">
                                     <i class="fas fa-file-signature"></i>
                                     Название города
                                 </label>
-                                <input type="text" class="form-control" placeholder="Москва">
+                                <input type="text" name="name" class="form-control" placeholder="Москва" value="{{ old('name') }}">
                             </div>
                         </div>
                         <!-- /.card-body -->
 
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-                            <button type="button" class="btn btn-primary">Добавить</button>
+                            <button type="submit" class="btn btn-primary">Добавить</button>
                         </div>
                     </form>
                 </div>

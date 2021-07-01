@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,9 +20,9 @@ class LoginController extends Controller
      * Авторизация сотрудника.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $credentials = $request->only('email', 'password');
 
@@ -38,10 +39,8 @@ class LoginController extends Controller
 
     /**
      * Выход сотрудника
-     *
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function logout(): \Illuminate\Http\RedirectResponse
+    public function logout()
     {
         Auth::logout();
 

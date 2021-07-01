@@ -4,11 +4,15 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
  * @method static create(array $validated)
+ * @method static whereNotIn(string $string)
+ * @method static whereNotNull(string $string)
+ * @method static find(int $id)
  */
 class User extends Authenticatable
 {
@@ -23,6 +27,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'role_id',
+        'city_id'
     ];
 
     /**
@@ -53,5 +60,23 @@ class User extends Authenticatable
     public function setPasswordAttribute(string $value)
     {
         $this->attributes['password'] = bcrypt($value);
+    }
+
+    /**
+     * Получить город.
+     */
+    public function city(): HasOne
+    {
+        return $this->hasOne(City::class, 'id', 'city_id');
+    }
+
+    /**
+     * Получить город.
+     */
+    public function role(): HasOne
+    {
+        return $this->hasOne(Role::class, 'id', 'role_id')->withDefault([
+            'role_id' => 1
+        ]);
     }
 }

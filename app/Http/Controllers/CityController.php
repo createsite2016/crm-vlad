@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CityPostRequest;
+use App\Models\City;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class CityController extends Controller
 {
@@ -14,13 +18,14 @@ class CityController extends Controller
      */
     public function index(): View
     {
-        return view('page.user.cities.index');
+        $cities = DB::table('cities')->get();
+        return view('page.user.cities.index', compact('cities'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -30,21 +35,23 @@ class CityController extends Controller
     /**
      * Создание нового города.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CityPostRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CityPostRequest $request): RedirectResponse
     {
-        //
+        City::create($request->validated());
+
+        return redirect()->route('user.cities.store');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
-    public function show($id)
+    public function show(int $id): Response
     {
         //
     }
@@ -52,34 +59,44 @@ class CityController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return View
      */
-    public function edit($id)
+    public function edit(int $id): View
     {
-        //
+        $city = City::where('id', $id)->get()->first();
+        return view('page.user.cities.edit', ['city' => $city]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param CityPostRequest $request
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(CityPostRequest $request, int $id): RedirectResponse
     {
-        //
+        $city = City::findOrFail($id);
+        $city->name = $request->name;
+        $city->update();
+
+        return redirect()->route('user.cities.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
-        //
+        $city = City::find($id);
+        if ($city){
+            $city->delete();
+        }
+
+        return redirect()->route('user.cities.index');
     }
 }

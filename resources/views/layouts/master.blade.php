@@ -16,6 +16,7 @@
     <script src="{{ asset('/plugins/moment/moment.min.js') }}"></script>
     <script src="{{ asset('/plugins/moment/moment-with-locales.js') }}"></script>
     <script src="{{ asset('/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    @livewireStyles
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -83,7 +84,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="index3.html" class="brand-link">
+        <a href="/" class="brand-link">
             <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-light">OZBERG</span>
         </a>
@@ -103,31 +104,62 @@
             <!-- Sidebar Menu -->
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item">
-                        <a href="/user/tasks/" class="nav-link">
-                            <i class="fas fa-list-ul"></i>
-                            <p>Задачи</p>
+
+                    <li class="nav-item {{ request()->routeIs('user.tasks.index') ? 'menu-is-opening menu-open' : '' }}">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-tasks"></i>
+                            <p class="text-info">
+                                Задачи
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
                         </a>
+                        <ul class="nav nav-treeview" style="display: {{ request()->routeIs('user.tasks.index') ? 'block' : 'none' }};">
+                            <li class="nav-item">
+                                <a href="{{ route('user.tasks.index') }}" class="nav-link {{ request()->routeIs('user.tasks.index') ? 'active' : '' }}">
+                                    <i class="fas fa-user"></i>
+                                    <p>
+                                        Мои
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link {{ request()->routeIs('user.tasks2.index') ? 'active' : '' }}">
+                                    <i class="fas fa-people-arrows"></i>
+                                    <p>
+                                        Внешнии задачи
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link {{ request()->routeIs('user.tasks2.index') ? 'active' : '' }}">
+                                    <i class="fas fa-user-check"></i>
+                                    <p>
+                                        На проверке
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+
                     <li class="nav-item">
-                        <a href="/user/staffs/" class="nav-link">
+                        <a href="{{ route('user.players.index') }}" class="nav-link {{ request()->routeIs('user.players.index') ? 'active' : '' }}">
                             <i class="fas fa-user-friends"></i>
                             <p>Исполнители</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/user/companies/" class="nav-link">
+                        <a href="{{ route('user.companies.index') }}" class="nav-link {{ request()->routeIs('user.companies.index') ? 'active' : '' }}">
                             <i class="far fa-building"></i>
                             <p>Компании</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/user/staffs/" class="nav-link">
+                        <a href="{{ route('user.devices.index') }}" class="nav-link {{ request()->routeIs('user.devices.index') ? 'active' : '' }}">
                             <i class="fas fa-hammer"></i>
                             <p>Оборудование</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{ request()->routeIs('user.cars.index','user.staffs.index','user.cities.index') ? 'menu-is-opening menu-open' : '' }}">
                         <a href="#" class="nav-link">
                             <i class="far fa-folder-open text-info"></i>
                             <p class="text-info">
@@ -135,9 +167,9 @@
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
-                        <ul class="nav nav-treeview" style="display: none;">
+                        <ul class="nav nav-treeview" style="display: {{ request()->routeIs('user.cars.index','user.staffs.index','user.cities.index') ? 'block' : 'none' }};">
                             <li class="nav-item">
-                                <a href="/user/staffs/" class="nav-link">
+                                <a href="{{ route('user.cars.index') }}" class="nav-link {{ request()->routeIs('user.cars.index') ? 'active' : '' }}">
                                     <i class="fas fa-car"></i>
                                     <p>
                                         Автомобили
@@ -145,7 +177,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/user/staffs/" class="nav-link">
+                                <a href="{{ route('user.staffs.index') }}" class="nav-link {{ request()->routeIs('user.staffs.index') ? 'active' : '' }}">
                                     <i class="fas fa-boxes"></i>
                                     <p>
                                         Склады
@@ -153,7 +185,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/user/cities/" class="nav-link">
+                                <a href="{{ route('user.cities.index') }}" class="nav-link {{ request()->routeIs('user.cities.index') ? 'active' : '' }}">
                                     <i class="fas fa-city"></i>
                                     <p>
                                         Города
@@ -161,6 +193,14 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('user.registration.index') }}" class="nav-link">
+                            <i class="fas fa-user-plus"></i>
+                            <p>
+                                Создать пользователя
+                            </p>
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('user.logout') }}" class="nav-link">
@@ -210,5 +250,6 @@
 <script src="{{ asset('/plugins/toastr/toastr.min.js') }}"></script>
 <script src="{{ asset('/dist/js/adminlte.js') }}"></script>
 <script src="{{ asset('/dist/js/demo.js') }}"></script>
+@livewireScripts
 </body>
 </html>
