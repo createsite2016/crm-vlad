@@ -65,7 +65,7 @@ class CompanyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Company $id
+     * @param Company $company
      * @return View
      */
     public function edit(Company $company): View

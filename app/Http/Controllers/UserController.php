@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\City;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 
@@ -16,10 +14,7 @@ class UserController extends Controller
 
     public  function players()
     {
-        $players = User::all();
-        $cities = City::all();
-        $roles = Role::all();
-        return view('page.user.players', compact('players','cities', 'roles'));
+        return view('page.user.players.index');
     }
 
     /**

@@ -96,8 +96,9 @@
                 <div class="image">
                     <img src="/dist/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
                 </div>
-                <div class="info">
+                <div class="info" style="color: #FFAA3E">
                     <a href="/user" class="d-block">{{ Auth::user()->name }}</a>
+                    {{ Auth::user()->role->name }}
                 </div>
             </div>
 
@@ -105,7 +106,7 @@
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-                    <li class="nav-item {{ request()->routeIs('user.tasks.index') ? 'menu-is-opening menu-open' : '' }}">
+                    <li class="nav-item {{ request()->routeIs('user.tasks.index','user.tasks.edit','user.tasks.team','user.tasks.control','user.tasks.complete') ? 'menu-is-opening menu-open' : '' }}">
                         <a href="#" class="nav-link">
                             <i class="fas fa-tasks"></i>
                             <p class="text-info">
@@ -113,38 +114,58 @@
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
-                        <ul class="nav nav-treeview" style="display: {{ request()->routeIs('user.tasks.index') ? 'block' : 'none' }};">
+                        @php
+                            $url = URL::previous();
+                            $route_name = collect(\Route::getRoutes())->first(function($route) use($url){
+                                return $route->matches(request()->create($url));
+                            });
+                        @endphp
+                        <ul class="nav nav-treeview" style="display: {{ request()->routeIs('user.tasks.index','user.tasks.team','user.tasks.control','user.tasks.edit','user.tasks.complete') ? 'block' : 'none' }};">
                             <li class="nav-item">
                                 <a href="{{ route('user.tasks.index') }}" class="nav-link {{ request()->routeIs('user.tasks.index') ? 'active' : '' }}">
                                     <i class="fas fa-user"></i>
                                     <p>
-                                        Мои
+                                        На мне
                                     </p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link {{ request()->routeIs('user.tasks2.index') ? 'active' : '' }}">
+                                <a href="{{ route('user.tasks.team') }}" class="nav-link {{ request()->routeIs('user.tasks.team') ? 'active' : '' }}">
                                     <i class="fas fa-people-arrows"></i>
-                                    <p>
-                                        Внешнии задачи
+                                    <p>‍Я поручил</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('user.tasks.control') }}" class="nav-link {{ request()->routeIs('user.tasks.control') ? 'active' : '' }}">
+                                    <i class="fas fa-user-check" style="color: #FFAA3E"></i>
+                                    <p style="color: #FFAA3E">
+                                        На проверке
                                     </p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link {{ request()->routeIs('user.tasks2.index') ? 'active' : '' }}">
-                                    <i class="fas fa-user-check"></i>
-                                    <p>
-                                        На проверке
+                                <a href="{{ route('user.tasks.complete') }}" class="nav-link {{ request()->routeIs('user.tasks.complete') ? 'active' : '' }}">
+                                    <i class="fas fa-user-check" style="color: #00a87d"></i>
+                                    <p style="color: #00a87d">
+                                        Выполненые
                                     </p>
                                 </a>
                             </li>
                         </ul>
                     </li>
 
+                    <li class="nav-header"></li>
+
                     <li class="nav-item">
                         <a href="{{ route('user.players.index') }}" class="nav-link {{ request()->routeIs('user.players.index') ? 'active' : '' }}">
                             <i class="fas fa-user-friends"></i>
                             <p>Исполнители</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('user.messages.index') }}" class="nav-link {{ request()->routeIs('user.messages.index') ? 'active' : '' }}">
+                            <i class="far fa-comments"></i>
+                            <p>Сообщения</p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -192,15 +213,15 @@
                                     </p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('user.registration.index') }}" class="nav-link">
+                                    <i class="fas fa-user-plus"></i>
+                                    <p>
+                                        Создать пользователя
+                                    </p>
+                                </a>
+                            </li>
                         </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('user.registration.index') }}" class="nav-link">
-                            <i class="fas fa-user-plus"></i>
-                            <p>
-                                Создать пользователя
-                            </p>
-                        </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('user.logout') }}" class="nav-link">

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TaskPostRequest extends FormRequest
+class TaskFromMeEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,12 @@ class TaskPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            //'name' => 'required',
             'deadline' => 'required',
             'description' => 'required|string|max:255',
             'company_id' => 'required',
             'status_id' => 'required',
-            'priority_id' => 'required',
+            //'priority_id' => 'required',
             'user_id' => 'required',
             'player_id' => 'required',
             'device_id' => 'required',
@@ -39,15 +39,15 @@ class TaskPostRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'название задачи не заполнено',
+            //'name.required' => 'название задачи не заполнено',
             'deadline.required' => 'не указана',
             'description.required' => 'не заполнено',
             'company_id.required' => 'не указана',
             'status_id.required' => 'не указан статус',
-            'priority_id.required' => 'не указан',
+            //'priority_id.required' => 'не указан',
             'user_id.required' => 'не указан заказчик',
             'player_id.required' => 'не указан',
-            'device_id.required' => 'не выбрано',
+            //'device_id.required' => 'не выбрано',
         ];
     }
 }

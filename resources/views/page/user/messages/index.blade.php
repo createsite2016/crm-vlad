@@ -6,12 +6,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Автомобили</h1>
+                    <h1 class="m-0">Сообщения</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="/user">Главная</a></li>
-                        <li class="breadcrumb-item active">автомобили</li>
+                        <li class="breadcrumb-item active">сообщения</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -25,12 +25,12 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Все автомобили</h3>
+                    <h3 class="card-title">Все сообщения</h3>
                     <div class="card-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
                             <button type="button" id="new_task" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
                                 <i class="fas fa-plus-circle"></i>
-                                Новая машина
+                                Новое сообщение
                             </button>
                         </div>
                     </div>
@@ -40,15 +40,15 @@
                     <table class="table table-hover text-nowrap">
                         <thead>
                         <tr>
-                            <th>Марка</th>
-                            <th>Номер</th>
+                            <th>Кому</th>
+                            <th>Текст сообщения</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse($cars as $car)
-                            <tr onclick="document.location = '{{ route('user.cars.edit', $car->id) }}';" style=" cursor:pointer;">
-                                <td>{{ $car->name }}</td>
-                                <td>{{ $car->number }}</td>
+                        @forelse($messages as $message)
+                            <tr onclick="document.location = '{{ route('user.messages.edit', $message->id) }}';" style=" cursor:pointer;">
+                                <td>{{ $message->user->name }}</td>
+                                <td>{{ $message->text }}</td>
                             </tr>
                         @empty
 
@@ -66,34 +66,41 @@
             <div class="modal-content">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Добавление новой машины</h3>
+                        <h3 class="card-title">Создание письма</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form method="post" action="{{ route('user.cars.store') }}">
+                    <form method="post" action="{{ route('user.messages.store') }}">
                         @csrf
                         <div class="card-body">
 
                             <div class="form-group">
                                 <label for="exampleSelectRounded0">
-                                    <i class="fas fa-car"></i>
-                                    Марка машины
-                                    @error('name')
-                                    <code>{{ $message }}</code>
-                                    @enderror
+                                    <i class="fas fa-user-edit"></i>
+                                    Кому
                                 </label>
-                                <input type="text" name="name" class="form-control" placeholder="Марка машины">
+                                @error('user_id')
+                                <br>
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                                @enderror
+                                <select name="user_id" class="custom-select rounded-0">
+                                    @foreach($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleSelectRounded0">
-                                    <i class="fas fa-ad"></i>
-                                    Номер машины
-                                    @error('number')
+                                    <i class="fas fa-comment-dots"></i>
+                                    Текст письма
+                                    @error('text')
                                     <code>{{ $message }}</code>
                                     @enderror
                                 </label>
-                                <input type="text" name="number" class="form-control" placeholder="Номер машины">
+                                <input type="text" name="text" class="form-control" placeholder="Тест письма">
                             </div>
 
                         </div>
@@ -101,7 +108,7 @@
 
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-                            <button type="submit" class="btn btn-primary">Добавить</button>
+                            <button type="submit" class="btn btn-primary">Отправить</button>
                         </div>
                     </form>
                 </div>

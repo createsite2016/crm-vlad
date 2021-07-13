@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\CarController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\TaskController;
@@ -19,7 +21,6 @@ Route::post('login', [LoginController::class, 'store'])->name('login.store')->mi
 Route::prefix('user')->middleware('auth')->group(function(){
 // главная
     Route::get('/', [UserController::class, 'index'])->name('user.index');
-    Route::get('/', [UserController::class, 'index'])->name('user.index');
 // регистрация
     Route::get('registration', [RegistrationController::class, 'index'])->name('user.registration.index');
     Route::post('registration', [RegistrationController::class, 'store'])->name('user.registration.store');
@@ -27,7 +28,13 @@ Route::prefix('user')->middleware('auth')->group(function(){
     Route::get('logout', [LoginController::class, 'logout'])->name('user.logout');
 // заявки
     Route::get('tasks', [TaskController::class, 'index'])->name('user.tasks.index');
+    Route::get('tasks/team', [TaskController::class, 'team'])->name('user.tasks.team');
+    Route::get('tasks/control', [TaskController::class, 'control'])->name('user.tasks.control');
+    Route::get('tasks/complete', [TaskController::class, 'complete'])->name('user.tasks.complete');
     Route::post('tasks', [TaskController::class, 'store'])->name('user.tasks.store');
+    Route::get('tasks/{task}/edit', [TaskController::class, 'edit'])->name('user.tasks.edit');
+    Route::patch('tasks/{task}', [TaskController::class, 'update'])->name('user.tasks.update');
+    Route::patch('tasks/player/{task}', [TaskController::class, 'update_player'])->name('user.tasks.update_player');
 // компании
     Route::get('companies', [CompanyController::class, 'index'])->name('user.companies.index');
     Route::post('companies', [CompanyController::class, 'store'])->name('user.companies.store');
@@ -56,7 +63,10 @@ Route::prefix('user')->middleware('auth')->group(function(){
     Route::get('players', [UserController::class, 'players'])->name('user.players.index');
     Route::get('players/{player}', [UserController::class, 'destroy'])->name('user.players.destroy');
 // автомобили
-    Route::get('cars', function (){
-        return view('page.user.cars.index');
-    })->name('user.cars.index');
+    Route::get('cars', [CarController::class, 'index'])->name('user.cars.index');
+    Route::post('cars', [CarController::class, 'store'])->name('user.cars.store');
+    Route::get('cars/{car}/edit', [CarController::class, 'edit'])->name('user.cars.edit');
+    Route::patch('cars/{car}', [CarController::class, 'update'])->name('user.cars.update');
+// сообщения
+    Route::get('messages', [MessageController::class, 'index'])->name('user.messages.index');
 });

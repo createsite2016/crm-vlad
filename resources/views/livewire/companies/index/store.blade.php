@@ -34,6 +34,17 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="exampleSelectRounded0">
+                            <i class="far fa-building"></i>
+                            Название
+                            @error('name')
+                            <code>{{ $message }}</code>
+                            @enderror
+                        </label>
+                        <input type="text" name="name" class="form-control" placeholder="Название задачи">
+                    </div>
+
+                    <div class="form-group">
                         <label for="exampleInputEmail1">
                             <i class="far fa-edit"></i>
                             Описание задачи
@@ -122,6 +133,7 @@
                             Оборудование
                         </label>
                         <select name="device_id" class="custom-select rounded-0">
+                            <option value="0">Нет</option>
                             @foreach($devices as $device)
                                 <option selected value="{{ $device->id }}">{{ $device->name }}</option>
                             @endforeach

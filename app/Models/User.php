@@ -13,6 +13,7 @@ use Illuminate\Notifications\Notifiable;
  * @method static whereNotIn(string $string)
  * @method static whereNotNull(string $string)
  * @method static find(int $id)
+ * @method static where(string $string, string $string1, string $string2)
  */
 class User extends Authenticatable
 {
@@ -78,5 +79,13 @@ class User extends Authenticatable
         return $this->hasOne(Role::class, 'id', 'role_id')->withDefault([
             'role_id' => 1
         ]);
+    }
+
+    /**
+     * Получить автомобиль.
+     */
+    public function car(): HasOne
+    {
+        return $this->hasOne(City::class, 'id', 'car_id');
     }
 }

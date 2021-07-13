@@ -3,27 +3,123 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\TaskForMeEditRequest;
+use App\Http\Requests\TaskFromMeEditRequest;
 use App\Http\Requests\TaskPostRequest;
+use App\Models\Company;
+use App\Models\Device;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class TaskController extends Controller
 {
+
+    const CONTROL = 1;
+    const COMPLETE = 2;
+
+    public $background_color = [
+        0 => '',
+        1 => 'yellow',
+        2 => 'red'
+    ];
+    public $text_color = [
+        0 => '',
+        1 => '',
+        2 => 'white'
+    ];
+    public $statuses = [
+        0 => '🆕 новая',
+        1 => '👀 на проверке',
+        2 => '✅ выполнена'
+    ];
+    public $priority = [
+        0 => '❕ низкий',
+        1 => '⚠️️ средний',
+        2 => '🔥️ высокий'
+    ];
+
+    /**
+     * Мои задачи
+     * */
     public function index()
     {
-        $background_color = [
-            0 => '',
-            1 => 'yellow',
-            2 => 'red'
-        ];
-        $text_color = [
-            0 => '',
-            1 => '',
-            2 => 'white'
-        ];
-        $tasks = Task::all();
-        return view('page.user.tasks.index', compact('tasks', 'background_color', 'text_color'));
+        $tasks = Task::all()
+            ->whereNotIn('status_id', self::CONTROL)
+            ->whereNotIn('status_id', self::COMPLETE)
+            ->where('player_id', \Auth::user()->id);
+
+        return view('page.user.tasks.index',
+            [
+                'tasks' => $tasks,
+                'background_color' => $this->background_color,
+                'text_color' => $this->text_color,
+                'statuses' => $this->statuses,
+                'priority' => $this->priority
+            ]);
     }
+
+    /**
+     * Внешние задачи
+     */
+    public function team()
+    {
+        $tasks = Task::all()
+            ->whereNotIn('player_id', \Auth::user()->id)
+            ->whereNotIn('status_id', self::CONTROL)
+            ->whereNotIn('status_id', self::COMPLETE)
+            ->where('user_id', \Auth::user()->id);
+
+        return view('page.user.tasks.index',
+            [
+                'tasks' => $tasks,
+                'background_color' => $this->background_color,
+                'text_color' => $this->text_color,
+                'statuses' => $this->statuses,
+                'priority' => $this->priority
+            ]);
+    }
+
+    /**
+     * Задачи на проверку
+     */
+    public function control()
+    {
+        $tasks = Task::all()
+            ->where('user_id', \Auth::user()->id)
+            ->where('status_id', self::CONTROL);
+
+        return view('page.user.tasks.index',
+            [
+                'tasks' => $tasks,
+                'background_color' => $this->background_color,
+                'text_color' => $this->text_color,
+                'statuses' => $this->statuses,
+                'priority' => $this->priority
+            ]);
+    }
+
+    /**
+     * Выполненые задачи
+     */
+    public function complete()
+    {
+        $tasks = Task::all()
+            ->where('user_id', \Auth::user()->id)
+            ->where('status_id', self::COMPLETE);
+
+        return view('page.user.tasks.index',
+            [
+                'tasks' => $tasks,
+                'background_color' => $this->background_color,
+                'text_color' => $this->text_color,
+                'statuses' => $this->statuses,
+                'priority' => $this->priority
+            ]);
+    }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -34,6 +130,68 @@ class TaskController extends Controller
     public function store(TaskPostRequest $request): RedirectResponse
     {
         Task::create($request->validated());
-        return redirect()->route('user.tasks.store');
+        return redirect()->route('user.tasks.index');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param Task $task
+     * @return View
+     */
+    public function edit(Task $task): View
+    {
+        $task = Task::find($task->id);
+        $devices = Device::all();
+        if($task->user_id == \Auth::user()->id){
+            $users = User::all();
+            $companies = Company::all();
+            return view('page.user.tasks.edit', [
+                'task' => $task,
+                'users' => $users,
+                'statuses' => $this->statuses,
+                'companies' => $companies,
+                'priority' => $this->priority,
+                'devices' => $devices
+            ]);
+        }
+
+       unset($this->statuses[2]);
+
+        return view('page.user.tasks.edit_player', [
+            'task' => $task,
+            'statuses' => $this->statuses,
+            'priority' => $this->priority
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param TaskFromMeEditRequest $request
+     * @param int $task
+     * @return RedirectResponse
+     */
+    public function update(TaskFromMeEditRequest $request, int $task): RedirectResponse
+    {
+        $task = Task::findOrFail($task);
+        $task->update($request->all());
+
+        return redirect()->route('user.tasks.index');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param TaskForMeEditRequest $request
+     * @param int $task
+     * @return RedirectResponse
+     */
+    public function update_player(TaskForMeEditRequest $request, int $task): RedirectResponse
+    {
+        $task = Task::findOrFail($task);
+        $task->update($request->all());
+
+        return redirect()->route('user.tasks.index');
     }
 }

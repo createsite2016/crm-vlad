@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property $name
  * @property $qualification
  * @property $company
+ * @method static create(array $validated)
+ * @method static find($id)
  */
 class Task extends Model
 {
@@ -25,6 +27,7 @@ class Task extends Model
 
     protected $fillable = [
         'deadline',
+        'name',
         'company_id',
         'description',
         'status_id',
