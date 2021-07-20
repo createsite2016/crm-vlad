@@ -62,6 +62,7 @@ Route::prefix('user')->middleware('auth')->group(function(){
 // исполнители
     Route::get('players', [UserController::class, 'players'])->name('user.players.index');
     Route::get('players/{player}', [UserController::class, 'destroy'])->name('user.players.destroy');
+    Route::patch('players/{player}', [UserController::class, 'update'])->name('user.players.update');
 // автомобили
     Route::get('cars', [CarController::class, 'index'])->name('user.cars.index');
     Route::post('cars', [CarController::class, 'store'])->name('user.cars.store');
@@ -69,4 +70,13 @@ Route::prefix('user')->middleware('auth')->group(function(){
     Route::patch('cars/{car}', [CarController::class, 'update'])->name('user.cars.update');
 // сообщения
     Route::get('messages', [MessageController::class, 'index'])->name('user.messages.index');
+    Route::post('messages', [MessageController::class, 'store'])->name('user.messages.store');
+    Route::post('messages/chat', [MessageController::class, 'store_chat'])->name('user.messages.store_chat');
+    Route::get('messages/{dialog}', [MessageController::class, 'show'])->name('user.messages.show');
+});
+
+Route::get('clear', function () {
+    Artisan::call('route:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('view:clear');
 });

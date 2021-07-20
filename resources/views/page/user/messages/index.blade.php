@@ -23,42 +23,41 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Все сообщения</h3>
-                    <div class="card-tools">
-                        <div class="input-group input-group-sm" style="width: 150px;">
-                            <button type="button" id="new_task" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
-                                <i class="fas fa-plus-circle"></i>
-                                Новое сообщение
-                            </button>
-                        </div>
+            <div class="card-header">
+                <h3 class="card-title">Ваши диалоги</h3>
+                <div class="card-tools">
+                    <div class="input-group input-group-sm">
+                        <button type="button" id="new_task" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                            <i class="fas fa-paper-plane"></i>
+                            Написать
+                        </button>
                     </div>
                 </div>
-                <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                    <table class="table table-hover text-nowrap">
-                        <thead>
-                        <tr>
-                            <th>Кому</th>
-                            <th>Текст сообщения</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @forelse($messages as $message)
-                            <tr onclick="document.location = '{{ route('user.messages.edit', $message->id) }}';" style=" cursor:pointer;">
-                                <td>{{ $message->user->name }}</td>
-                                <td>{{ $message->text }}</td>
-                            </tr>
+            </div>
+            <div class="card direct-chat-contacts-open">
+                <div class="direct-chat-contacts" style="background-color: white">
+                    <ul class="contacts-list">
+                        @forelse($dialogs as $dialog)
+                            <li>
+                                <a href="{{ route('user.messages.show', $dialog->id) }}">
+                                    <img class="contacts-list-img" src="/dist/img/user1-128x128.jpg" alt="User Avatar">
+
+                                    <div class="contacts-list-info" style="color: black;">
+                                          <span class="contacts-list-name" style="color: black;">
+                                            {{ $dialog->user->name }}
+                                            <small class="contacts-list-date float-right" style="color: black;">2/28/2015</small>
+                                          </span>
+                                            <span class="contacts-list-msg" style="color: black;">{{ $dialog->message->text }}</span>
+                                    </div>
+
+                                </a>
+                            </li>
                         @empty
 
                         @endforelse
-                        </tbody>
-                    </table>
+                    </ul>
                 </div>
-                <!-- /.card-body -->
             </div>
-            <!-- /.card -->
         </div>
     </div>
     <div class="modal fade show" id="modal-default">
@@ -85,11 +84,12 @@
                                     {{ $message }}
                                 </span>
                                 @enderror
-                                <select name="user_id" class="custom-select rounded-0">
+                                <select name="recipient_id" class="custom-select rounded-0">
                                     @foreach($users as $user)
                                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                                     @endforeach
                                 </select>
+                                <input type="hidden" name="sender_id" value="{{ Auth::user()->id }}">
                             </div>
 
                             <div class="form-group">
@@ -100,7 +100,7 @@
                                     <code>{{ $message }}</code>
                                     @enderror
                                 </label>
-                                <input type="text" name="text" class="form-control" placeholder="Тест письма">
+                                <textarea class="form-control" name="text" rows="3" placeholder="Тест письма">{{ old('text') }}</textarea>
                             </div>
 
                         </div>

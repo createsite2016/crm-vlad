@@ -83,44 +83,60 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
-                    <table class="table table-hover text-nowrap">
-                        <thead>
-                        <tr>
-                            <th>Название</th>
-                            <th>Выполнить</th>
-                            <th>Компания</th>
-                            <th>Статус</th>
-                            <th>Приоритет</th>
-                            <th>Создал</th>
-                            <th>Выполняет</th>
-                            <th>Оборудование</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($tasks as $task)
-                            <tr onclick="document.location = '{{ route('user.tasks.edit', $task->id) }}';" style=" background: {{ $background_color[$task->priority_id] }}; cursor:pointer; color: {{ $text_color[$task->priority_id] }}">
-                                <td>{{ $task->name }}</td>
-                                <td>{{ date_smart($task->deadline) }}</td>
-                                @if($task->company)
-                                    <td>{{ $task->company->name }}</td>
-                                @else
-                                    <td>Нет</td>
-                                @endif
-                                <td>{{ $statuses[$task->status_id] }}</td>
-                                <td>{{ $priority[$task->priority_id] }}</td>
-                                <td>{{ $task->user->name }}</td>
-                                <td>{{ $task->player->name }}</td>
-                                @if($task->device)
-                                    <td>{{ $task->device->name }}</td>
-                                @else
-                                    <td>Нет</td>
-                                @endif
+                    @if($tasks->isEmpty())
+                        <br>
+                        <div class="col-12">
+                            <div class="info-box bg-success">
+                                <span class="info-box-icon"><i class="far fa-thumbs-up"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Нет задач</span>
+                                    <span class="progress-description">
+                                        Позже они обязательно будут
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Выполнить</th>
+                                <th>Компания</th>
+                                <th>Статус</th>
+                                <th>Приоритет</th>
+                                <th>Создал</th>
+                                <th>Выполняет</th>
+                                <th>Оборудование</th>
                             </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            @forelse($tasks as $task)
+                                <tr onclick="document.location = '{{ route('user.tasks.edit', $task->id) }}';" style=" background: {{ $background_color[$task->priority_id] }}; cursor:pointer; color: {{ $text_color[$task->priority_id] }}">
+                                    <td>{{ $task->name }}</td>
+                                    <td>{{ date_smart($task->deadline) }}</td>
+                                    @if($task->company)
+                                        <td>{{ $task->company->name }}</td>
+                                    @else
+                                        <td>Нет</td>
+                                    @endif
+                                    <td>{{ $statuses[$task->status_id] }}</td>
+                                    <td>{{ $priority[$task->priority_id] }}</td>
+                                    <td>{{ $task->user->name }}</td>
+                                    <td>{{ $task->player->name }}</td>
+                                    @if($task->device)
+                                        <td>{{ $task->device->name }}</td>
+                                    @else
+                                        <td>Нет</td>
+                                    @endif
+                                </tr>
+                            @empty
+
+                            @endforelse
+                            </tbody>
+                        </table>
+                    @endif
                 </div>
-                <!-- /.card-body -->
             </div>
             <!-- /.card -->
         </div>

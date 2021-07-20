@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMessagesTable extends Migration
+class CreateDialogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('dialogs', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer('dialog_id');
             $table->integer('recipient_id');
             $table->integer('sender_id');
-            $table->text('text');
             $table->integer('recipient_hide')->default(0);
             $table->integer('sender_hide')->default(0);
-            $table->string('read')->default(0);
+            $table->integer('last_message_id')->default(0);
         });
     }
 
@@ -33,6 +31,6 @@ class CreateMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('dialogs');
     }
 }

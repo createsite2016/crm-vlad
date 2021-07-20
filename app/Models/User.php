@@ -14,6 +14,7 @@ use Illuminate\Notifications\Notifiable;
  * @method static whereNotNull(string $string)
  * @method static find(int $id)
  * @method static where(string $string, string $string1, string $string2)
+ * @method static findOrFail(int $id)
  */
 class User extends Authenticatable
 {
@@ -30,7 +31,8 @@ class User extends Authenticatable
         'password',
         'phone',
         'role_id',
-        'city_id'
+        'city_id',
+        'car_id'
     ];
 
     /**
@@ -86,6 +88,22 @@ class User extends Authenticatable
      */
     public function car(): HasOne
     {
-        return $this->hasOne(City::class, 'id', 'car_id');
+        return $this->hasOne(Car::class, 'id', 'car_id');
+    }
+
+    /**
+     * Получить все отправленные пользователем сообщения
+     */
+    public function send()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    /**
+     * Получить все входящие пользователем сообщения
+     */
+    public function recipient()
+    {
+        return $this->hasMany(Message::class, 'recipient_id');
     }
 }

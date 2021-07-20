@@ -12,8 +12,6 @@
             <div class="card-header">
                 <h3 class="card-title">Создание новой задачи</h3>
             </div>
-            <!-- /.card-header -->
-            <!-- form start -->
             <form method="post" action="{{ route('user.tasks.store') }}">
                 @csrf
                 <div class="card-body">
@@ -95,7 +93,6 @@
                             <option value="{{ Auth::user()->id }}">Назначить на себя самого</option>
                         </select>
                     </div>
-                    <!-- Date and time -->
                     <div class="form-group">
                         <label>
                             <i class="fas fa-calendar-alt"></i>
@@ -140,8 +137,6 @@
                         </select>
                     </div>
                 </div>
-                <!-- /.card-body -->
-
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
                     <button type="submit" class="btn btn-primary">Добавить</button>
@@ -149,6 +144,5 @@
             </form>
         </div>
     </div>
-    <!-- /.modal-content -->
 </div>
 

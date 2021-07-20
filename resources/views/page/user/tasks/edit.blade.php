@@ -36,6 +36,27 @@
                     @method('PATCH')
                     @csrf
 
+                    @if(!is_null($way))
+                    <div class="card-body">
+                        <label for="exampleSelectRounded0">
+                            <i class="fas fa-user-tie"></i>
+                            Начало пробега
+                            <input type="text" class="form-control" value="{{ $way->start }}" disabled />
+                            <a href="{{ Storage::url($task->image_start) }}" target="_blank"><img src="{{ Storage::url($task->image_start) }}" alt="" height="100px" width="100px"></a>
+                        </label>
+                    </div>
+
+
+                    <div class="card-body">
+                        <label for="exampleSelectRounded0">
+                            <i class="fas fa-user-tie"></i>
+                            Конец пробега
+                            <input type="text" class="form-control" value="{{ $way->finish }}" disabled/>
+                            <a href="{{ Storage::url($task->image_finish) }}" target="_blank"><img src="{{ Storage::url($task->image_finish) }}" alt="" height="100px" width="100px"></a>
+                        </label>
+                    </div>
+                    @endif
+
                     <div class="card-body">
                         <label for="exampleSelectRounded0">
                             <i class="far fa-building"></i>

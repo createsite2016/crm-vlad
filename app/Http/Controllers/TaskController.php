@@ -10,7 +10,10 @@ use App\Models\Company;
 use App\Models\Device;
 use App\Models\Task;
 use App\Models\User;
+use App\Models\Way;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class TaskController extends Controller
@@ -146,22 +149,28 @@ class TaskController extends Controller
         if($task->user_id == \Auth::user()->id){
             $users = User::all();
             $companies = Company::all();
+            $way = Way::find($task->way_id);
+
             return view('page.user.tasks.edit', [
                 'task' => $task,
                 'users' => $users,
                 'statuses' => $this->statuses,
                 'companies' => $companies,
                 'priority' => $this->priority,
-                'devices' => $devices
+                'devices' => $devices,
+                'way' => $way
             ]);
         }
 
        unset($this->statuses[2]);
 
+        $way = Way::find($task->way_id);
+
         return view('page.user.tasks.edit_player', [
             'task' => $task,
             'statuses' => $this->statuses,
-            'priority' => $this->priority
+            'priority' => $this->priority,
+            'way' => $way
         ]);
     }
 
@@ -177,11 +186,14 @@ class TaskController extends Controller
         $task = Task::findOrFail($task);
         $task->update($request->all());
 
+        Storage::disk('public')->delete($task->image_start);
+        Storage::disk('public')->delete($task->image_finish);
+
         return redirect()->route('user.tasks.index');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Обновление задачи исполнителем.
      *
      * @param TaskForMeEditRequest $request
      * @param int $task
@@ -189,8 +201,41 @@ class TaskController extends Controller
      */
     public function update_player(TaskForMeEditRequest $request, int $task): RedirectResponse
     {
+        if($request->get('way_id')){
+            $way = Way::find($request->get('way_id'));
+            $way->order_id = $task;
+            $way->start = $request->get('way_start');
+            $way->finish = $request->get('way_finish');
+            $way->user_id = Auth::user()->id;
+            $way->car_id = Auth::user()->car_id;
+            $way->update();
+        } else {
+            $way = new Way();
+            $way->order_id = $task;
+            $way->start = $request->get('way_start');
+            $way->finish = $request->get('way_finish');
+            $way->user_id = Auth::user()->id;
+            $way->car_id = Auth::user()->car_id;
+            $way->save();
+        }
+
         $task = Task::findOrFail($task);
-        $task->update($request->all());
+        $task->status_id = $request->get('status_id');
+        $task->way_id = $way->id ?? $request->get('way_id');
+
+        if ($request->hasFile('image')) {
+            Storage::disk('public')->delete($task->image_start);
+            $path_start = $request->image->store('images', 'public');
+            $task->image_start = $path_start;
+        }
+
+        if ($request->hasFile('image_finish')) {
+            Storage::disk('public')->delete($task->image_finish);
+            $path_finish = $request->image_finish->store('images', 'public');
+            $task->image_finish = $path_finish;
+        }
+
+        $task->update();
 
         return redirect()->route('user.tasks.index');
     }

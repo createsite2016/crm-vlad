@@ -76,7 +76,7 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form method="post" action="{{ route('user.tasks.update_player', $task->id) }}">
+                <form method="post" enctype="multipart/form-data" action="{{ route('user.tasks.update_player', $task->id) }}">
                     @method('PATCH')
                     @csrf
 
@@ -161,6 +161,64 @@
                                    disabled>
                         </label>
                     </div>
+
+                    <div class="card-body">
+                        <label for="exampleInputFile">Начало пробега (фото)</label>
+                        @error('image')
+                        <code>{{ $message }}</code>
+                        @enderror
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" name="image" accept="image/*,image/jpeg" placeholder="Начало пробега (фото)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <label for="exampleInputFile">Конец пробега (фото)</label>
+                        @error('image_finish')
+                        <code>{{ $message }}</code>
+                        @enderror
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" name="image_finish" accept="image/*,image/jpeg" placeholder="Конец пробега (фото)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <label for="exampleSelectRounded0">
+                            <i class="fas fa-user-tie"></i>
+                            Начало пробега
+                            @error('way_start')
+                            <code>{{ $message }}</code>
+                            @enderror
+                            <input type="hidden" name="way_id" value="{{ $task->way_id }}">
+                            <input type="text" name="way_start" class="form-control"
+                                   @if(!is_null($way))
+                                        value="{{ $way->start }}"
+                                   @endif
+                            />
+                        </label>
+                    </div>
+
+                    <div class="card-body">
+                        <label for="exampleSelectRounded0">
+                            <i class="fas fa-user-tie"></i>
+                            Конец пробега
+                            @error('way_finish')
+                            <code>{{ $message }}</code>
+                            @enderror
+                            <input type="text" name="way_finish" class="form-control"
+                                   @if(!is_null($way))
+                                   value="{{ $way->finish }}"
+                                @endif
+                            />
+                        </label>
+                    </div>
+
+                    <img src="{{ Storage::url($task->image_start) }}" alt="" height="100px" width="100px">
+                    <img src="{{ Storage::url($task->image_finish) }}" alt="" height="100px" width="100px">
 
                     <div class="card-footer">
                         <a href="{{ URL::previous() }}" class="btn btn-default float-right">Отмена</a>

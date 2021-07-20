@@ -53,7 +53,7 @@
                         </thead>
                         <tbody>
                         @foreach($companies as $company)
-                        <tr>
+                        <tr onclick="document.location = '{{ route('user.companies.edit', $company->id) }}';" style="cursor: pointer">
                             <td>{{ $company->id }}</td>
                             <td>{{ $company->name }}</td>
                             <td>{!! $company->phone !!}</td>
@@ -68,11 +68,11 @@
                                         <i class="fas fa-edit"></i>
                                         <a href="{{ route('user.companies.edit', $company->id) }}">Изменить</a>
                                     </li>
-                                    <li class="dropdown-divider"></li>
-                                    <li class="dropdown-item danger">
-                                        <i class="far fa-trash-alt"></i>
-                                        <a href="{{ route('user.companies.destroy', $company->id) }}">Удалить</a>
-                                    </li>
+{{--                                    <li class="dropdown-divider"></li>--}}
+{{--                                    <li class="dropdown-item danger">--}}
+{{--                                        <i class="far fa-trash-alt"></i>--}}
+{{--                                        <a href="{{ route('user.companies.destroy', $company->id) }}">Удалить</a>--}}
+{{--                                    </li>--}}
                                 </ul>
                             </td>
                         </tr>

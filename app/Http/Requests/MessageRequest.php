@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TaskForMeEditRequest extends FormRequest
+class MessageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,18 +24,18 @@ class TaskForMeEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'status_id' => 'required',
-            'image' => 'required',
-            'image_finish' => 'required',
+            'sender_id'         => 'required|integer',
+            'recipient_id'      => 'required|integer',
+            'text'              => 'required|string|max:255',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'status_id.required'    => 'не указан статус',
-            'image.required'        => 'нет фото начала пробега',
-            'image_finish.required' => 'нет фото конца пробега',
+            'sender_id.required'    => 'Отправитель не указан',
+            'recipient_id.unique'   => 'Получатель не указан',
+            'text.unique'           => 'Текст письма не заполнен'
         ];
     }
 }
