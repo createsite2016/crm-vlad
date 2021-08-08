@@ -93,8 +93,26 @@
                                     <code>{{ $message }}</code>
                                     @enderror
                                 </label>
-                                <input type="text" name="number" class="form-control" placeholder="Номер машины">
+                                <input type="text" name="number" class="form-control" placeholder="м233м23">
                             </div>
+
+                            <label for="exampleSelectRounded0">
+                                <i class="fas fa-ad"></i>
+                                Сотрудник
+                                @error('number')
+                                <code>{{ $message }}</code>
+                                @enderror
+                            </label>
+                            <select class="custom-select rounded-0" name="user_id">
+                                @foreach($users as $user)
+                                    @if(Auth::user()->id == $user->id)
+                                        continue;
+                                    @else
+                                        <option selected value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endif
+                                @endforeach
+                                <option value="{{ Auth::user()->id }}">Я</option>
+                            </select>
 
                         </div>
                         <!-- /.card-body -->

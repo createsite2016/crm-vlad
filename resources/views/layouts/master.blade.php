@@ -76,7 +76,7 @@
                     <img src="/dist/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info" style="color: #FFAA3E">
-                    <a href="/user" class="d-block">{{ Auth::user()->name }}</a>
+                    <a href="/user/profile" class="d-block">{{ Auth::user()->name }}</a>
                     {{ Auth::user()->role->name }}
                 </div>
             </div>
@@ -102,6 +102,7 @@
                                     <i class="fas fa-user"></i>
                                     <p>
                                         На мне
+                                        <span class="badge badge-info right">2</span>
                                     </p>
                                 </a>
                             </li>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CarRequest;
 use App\Models\Car;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -12,8 +13,9 @@ class CarController extends Controller
 {
     public function index()
     {
+        $users = User::all();
         $cars = Car::all();
-        return view('page.user.cars.index', compact('cars'));
+        return view('page.user.cars.index', compact('cars', 'users'));
     }
 
     /**
@@ -53,5 +55,19 @@ class CarController extends Controller
         $car->update($request->all());
 
         return redirect()->route('user.cars.index');
+    }
+
+    /**
+     * Выбрать активный автомобиль для пользователя
+     * @param int $car_id
+     * @return RedirectResponse
+     */
+    public function select(int $car_id): RedirectResponse
+    {
+        $user = User::find(\Auth::user()->id);
+        $user->car_id = $car_id;
+        $user->save();
+
+        return redirect()->route('user.profile.index', 'cars');
     }
 }

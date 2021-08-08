@@ -25,7 +25,8 @@ class CarRequest extends FormRequest
     {
         return [
             'name'      => 'required',
-            'number'    => 'required'
+            'number'    => 'required',
+            'user_id'   => 'required'
         ];
     }
 
@@ -34,6 +35,7 @@ class CarRequest extends FormRequest
         return [
             'name.required' => 'Марка авто не заполнена',
             'number.required' => 'Номер авто не указан',
+            'user_id.required' => 'Сотрудник не указан',
         ];
     }
 }

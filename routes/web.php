@@ -6,6 +6,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\TaskController;
@@ -73,10 +74,8 @@ Route::prefix('user')->middleware('auth')->group(function(){
     Route::post('messages', [MessageController::class, 'store'])->name('user.messages.store');
     Route::post('messages/chat', [MessageController::class, 'store_chat'])->name('user.messages.store_chat');
     Route::get('messages/{dialog}', [MessageController::class, 'show'])->name('user.messages.show');
-});
-
-Route::get('clear', function () {
-    Artisan::call('route:clear');
-    Artisan::call('cache:clear');
-    Artisan::call('view:clear');
+// профиль
+    Route::get('profile', [ProfileController::class, 'index'])->name('user.profile.index');
+    Route::get('profile/car/{car_id}', [CarController::class, 'select'])->name('user.profile.car.select');
+    Route::post('profile/update', [ProfileController::class, 'update'])->name('user.profile.update');
 });
