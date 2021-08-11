@@ -33,7 +33,7 @@
                             <h5 class="widget-user-desc">{{ Auth::user()->role->name }}</h5>
                         </div>
                         <div class="widget-user-image">
-                            <img class="img-circle elevation-2" src="../dist/img/user1-128x128.jpg" alt="User Avatar">
+                            <img class="img-circle elevation-2" src="/dist/img/avatar5.png" alt="User Avatar">
                         </div>
                         <div class="card-footer">
                             <div class="row">
@@ -86,10 +86,22 @@
 
                                         @endif
                                         " href="#cars" data-toggle="tab">Автомобили</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#event" data-toggle="tab">Уведомления</a></li>
                             </ul>
                         </div><!-- /.card-header -->
                         <div class="card-body">
                             <div class="tab-content">
+                                <div class="tab-pane" id="event">
+                                    @if(Auth::user()->telegram_chat_id)
+                                        Телеграмм бот уже подключен
+                                    @else
+                                        <a href="https://t.me/ozberg_bot" target="_blank" type="button" class="btn btn-default" >
+                                            <i class="fas fa-plus-circle"></i>
+                                            Подключить телеграмм бот
+                                        </a>
+                                    @endif
+                                </div>
+
                                 <div class="
                                 @if(Request::has('cars'))
 
@@ -216,13 +228,45 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Large Modal</h4>
+                    <h4 class="modal-title">Пробег {{ $car->name }} <small>{{ $car->number }}</small></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>One fine body…</p>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Крайние 10 поездок</h3>
+
+                                    <div class="card-tools">
+                                    </div>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body table-responsive p-0">
+                                    <table class="table table-hover text-nowrap">
+                                        <thead>
+                                        <tr>
+                                            <th>Дата</th>
+                                            <th>Задача</th>
+                                            <th>Пробег</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>11-7-2014</td>
+                                            <td>Забрать молоток</td>
+                                            <td>11 км</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

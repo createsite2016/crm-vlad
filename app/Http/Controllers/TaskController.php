@@ -11,6 +11,7 @@ use App\Models\Device;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\Way;
+use App\Service\Telegram\Bot;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -125,7 +126,7 @@ class TaskController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * Создание задачи
      *
      * @param TaskPostRequest $request
      * @return RedirectResponse
@@ -133,6 +134,12 @@ class TaskController extends Controller
     public function store(TaskPostRequest $request): RedirectResponse
     {
         Task::create($request->validated());
+        $user = User::where('id', '=', $request->get('player_id'))->first();
+        if($user->telegram_chat_id){
+            $bot = new Bot();
+            $bot->sendToTelegram('У Вас новая задача! посмотреть можно тут: ' . route('user.tasks.index'), $user->telegram_chat_id);
+        }
+
         return redirect()->route('user.tasks.index');
     }
 

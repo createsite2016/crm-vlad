@@ -32,8 +32,6 @@ class MessageController extends Controller
             abort(404);
         }
 
-
-
         return view('page.user.messages.show', compact('dialog', 'messages'));
     }
 
