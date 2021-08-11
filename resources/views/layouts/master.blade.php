@@ -91,10 +91,32 @@
                             </p>
                         </a>
                         @php
+                            use App\Models\Task;
+
+                            const CONTROL = 1;
+                            const COMPLETE = 2;
+
                             $url = URL::previous();
                             $route_name = collect(\Route::getRoutes())->first(function($route) use($url){
                                 return $route->matches(request()->create($url));
                             });
+                            $my_tasks = Task::all()
+                                ->whereNotIn('status_id', CONTROL)
+                                ->whereNotIn('status_id', COMPLETE)
+                                ->where('player_id', \Auth::id())
+                                ->count();
+
+                            $send_tasks = Task::all()
+                                ->whereNotIn('player_id', \Auth::id())
+                                ->whereNotIn('status_id', CONTROL)
+                                ->whereNotIn('status_id', COMPLETE)
+                                ->where('user_id', \Auth::id())
+                                ->count();
+
+                            $control_tasks = Task::all()
+                                ->where('user_id', 3)
+                                ->where('status_id', CONTROL)
+                                ->count();
                         @endphp
                         <ul class="nav nav-treeview" style="display: {{ request()->routeIs('user.tasks.index','user.tasks.team','user.tasks.control','user.tasks.edit','user.tasks.complete') ? 'block' : 'none' }};">
                             <li class="nav-item">
@@ -102,14 +124,21 @@
                                     <i class="fas fa-user"></i>
                                     <p>
                                         На мне
-                                        <span class="badge badge-info right">2</span>
+                                        @if($my_tasks)
+                                            <span class="badge badge-info right">{{ $my_tasks }}</span>
+                                        @endif
                                     </p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('user.tasks.team') }}" class="nav-link {{ request()->routeIs('user.tasks.team') ? 'active' : '' }}">
                                     <i class="fas fa-people-arrows"></i>
-                                    <p>‍Я поручил</p>
+                                    <p>
+                                        ‍Я поручил
+                                        @if($send_tasks)
+                                            <span class="badge badge-info right">{{ $send_tasks }}</span>
+                                        @endif
+                                    </p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -117,6 +146,9 @@
                                     <i class="fas fa-user-check" style="color: #FFAA3E"></i>
                                     <p style="color: #FFAA3E">
                                         На проверке
+                                        @if($control_tasks)
+                                            <span class="badge badge-info right">{{ $control_tasks }}</span>
+                                        @endif
                                     </p>
                                 </a>
                             </li>
