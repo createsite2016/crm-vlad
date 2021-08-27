@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Car;
+use App\Models\Media;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,6 +27,14 @@ class ProfileController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $user = User::findOrFail(\Auth::user()->id);
+
+        $file = $request->file('image');
+
+        $media = new Media();
+        //$media->saveFile($file);
+
+        dd($file);
+
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;

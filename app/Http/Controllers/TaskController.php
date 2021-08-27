@@ -144,7 +144,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Изменить задачу.
      *
      * @param Task $task
      * @return View
@@ -182,7 +182,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Обновить задачу.
      *
      * @param TaskFromMeEditRequest $request
      * @param int $task

@@ -17,3 +17,6 @@ cache: # сбросить весь кеш приложения
 	php artisan route:cache
 	php artisan view:clear
 	php artisan config:cache
+
+term:
+	docker exec -it crm-vlad_fpm_1 bash

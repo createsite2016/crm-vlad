@@ -6,6 +6,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationController;
@@ -81,3 +82,5 @@ Route::prefix('user')->middleware('auth')->group(function(){
     Route::get('profile/car/{car_id}', [CarController::class, 'select'])->name('user.profile.car.select');
     Route::post('profile/update', [ProfileController::class, 'update'])->name('user.profile.update');
 });
+
+Route::post('media', [MediaController::class, 'index'])->middleware('auth');

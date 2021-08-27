@@ -109,8 +109,11 @@
                                     active
                                 @endif
                                     tab-pane" id="settings">
-                                    <form class="form-horizontal" method="POST" action="{{ route('user.profile.update') }}">
+                                    <form class="form-horizontal" method="POST" action="{{ route('user.profile.update') }}" enctype="multipart/form-data">
                                         @csrf
+                                        <div class="form-group row">
+                                            <input type="file" name="image">
+                                        </div>
                                         <div class="form-group row">
                                             <label for="inputName" class="col-sm-2 col-form-label">Имя и Фамилия</label>
                                             <div class="col-sm-10">

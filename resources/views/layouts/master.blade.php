@@ -114,44 +114,44 @@
                                 ->count();
 
                             $control_tasks = Task::all()
-                                ->where('user_id', 3)
+                                ->where('user_id', \Auth::id())
                                 ->where('status_id', CONTROL)
                                 ->count();
                         @endphp
                         <ul class="nav nav-treeview" style="display: {{ request()->routeIs('user.tasks.index','user.tasks.team','user.tasks.control','user.tasks.edit','user.tasks.complete') ? 'block' : 'none' }};">
+                            @if($my_tasks)
                             <li class="nav-item">
                                 <a href="{{ route('user.tasks.index') }}" class="nav-link {{ request()->routeIs('user.tasks.index') ? 'active' : '' }}">
                                     <i class="fas fa-user"></i>
                                     <p>
                                         На мне
-                                        @if($my_tasks)
                                             <span class="badge badge-info right">{{ $my_tasks }}</span>
-                                        @endif
                                     </p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{ route('user.tasks.team') }}" class="nav-link {{ request()->routeIs('user.tasks.team') ? 'active' : '' }}">
-                                    <i class="fas fa-people-arrows"></i>
-                                    <p>
-                                        ‍Я поручил
-                                        @if($send_tasks)
-                                            <span class="badge badge-info right">{{ $send_tasks }}</span>
-                                        @endif
-                                    </p>
-                                </a>
-                            </li>
+                            @endif
+                            @if($send_tasks)
+                                <li class="nav-item">
+                                    <a href="{{ route('user.tasks.team') }}" class="nav-link {{ request()->routeIs('user.tasks.team') ? 'active' : '' }}">
+                                        <i class="fas fa-people-arrows"></i>
+                                        <p>
+                                            ‍Я поручил
+                                                <span class="badge badge-info right">{{ $send_tasks }}</span>
+                                        </p>
+                                    </a>
+                                </li>
+                            @endif
+                            @if($control_tasks)
                             <li class="nav-item">
                                 <a href="{{ route('user.tasks.control') }}" class="nav-link {{ request()->routeIs('user.tasks.control') ? 'active' : '' }}">
                                     <i class="fas fa-user-check" style="color: #FFAA3E"></i>
                                     <p style="color: #FFAA3E">
                                         На проверке
-                                        @if($control_tasks)
                                             <span class="badge badge-info right">{{ $control_tasks }}</span>
-                                        @endif
                                     </p>
                                 </a>
                             </li>
+                            @endif
                             <li class="nav-item">
                                 <a href="{{ route('user.tasks.complete') }}" class="nav-link {{ request()->routeIs('user.tasks.complete') ? 'active' : '' }}">
                                     <i class="fas fa-user-check" style="color: #00a87d"></i>
