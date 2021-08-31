@@ -2,11 +2,13 @@ start: # запустить все образы
 	docker start crm-vlad_fpm_1
 	docker start crm-vlad_web-server_1
 	docker start crm-vlad_postgres_1
+	docker start crm-vlad_mysql_1
 
 stop: # остановить докер образы
 	docker stop crm-vlad_fpm_1
 	docker stop crm-vlad_web-server_1
 	docker stop crm-vlad_postgres_1
+	docker stop crm-vlad_mysql_1
 
 install: # установить все контейнеры
 	docker-compose up -d
@@ -17,6 +19,12 @@ cache: # сбросить весь кеш приложения
 	php artisan route:cache
 	php artisan view:clear
 	php artisan config:cache
+
+delete:
+	docker rm crm-vlad_fpm_1
+	docker rm crm-vlad_web-server_1
+	docker rm crm-vlad_postgres_1
+	docker rm crm-vlad_mysql_1
 
 term:
 	docker exec -it crm-vlad_fpm_1 bash

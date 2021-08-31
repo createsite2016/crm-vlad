@@ -19,7 +19,7 @@ class CreateDevicesTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('volume');
-            $table->foreignIdFor(Staff::class)->after('id');
+            $table->foreignIdFor(Staff::class);
         });
     }
 

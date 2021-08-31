@@ -20,7 +20,7 @@ class CreateCompaniesTable extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('address');
-            $table->foreignIdFor(City::class)->after('address');
+            $table->foreignIdFor(City::class);
         });
     }
 

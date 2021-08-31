@@ -20,7 +20,7 @@ class CreateStaffTable extends Migration
             $table->string('timework');
             $table->string('name');
             $table->string('address');
-            $table->foreignIdFor(City::class)->after('id');
+            $table->foreignIdFor(City::class);
         });
     }
 
