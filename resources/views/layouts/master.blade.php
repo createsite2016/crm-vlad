@@ -92,17 +92,11 @@
                         </a>
                         @php
                             use App\Models\Task;
-                            use Illuminate\Support\Facades\URL;
-                            use Illuminate\Support\Facades\Route;
                             use Illuminate\Support\Facades\Auth;
 
                             const CONTROL = 1;
                             const COMPLETE = 2;
 
-                            $url = URL::previous();
-                            $route_name = collect(Route::getRoutes())->first(function($route) use($url){
-                                return $route->matches(request()->create($url));
-                            });
                             $my_tasks = Task::all()
                                 ->whereNotIn('status_id', CONTROL)
                                 ->whereNotIn('status_id', COMPLETE)
