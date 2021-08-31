@@ -29,15 +29,15 @@ class Car extends Model
      */
     public function way($car_id): int
     {
-        $ways = DB::table('ways')
-            ->select(DB::raw('SUM(finish::int) - SUM(start::int) as all_way'))
-            ->where('car_id','=', $car_id)
-        ->first();
-
-        if($ways->all_way){
-            return $ways->all_way;
-        } else {
+//        $ways = DB::table('ways')
+//            ->select(DB::raw('SUM(finish::int) - SUM(start::int) as all_way'))
+//            ->where('car_id','=', $car_id)
+//        ->first();
+//
+//        if($ways->all_way){
+//            return $ways->all_way;
+//        } else {
             return 0;
-        }
+        //}
     }
 }
