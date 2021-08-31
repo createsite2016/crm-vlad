@@ -110,7 +110,7 @@
                                 ->count();
 
                             $send_tasks = Task::all()
-                                ->whereNotIn('player_id', \Auth::id())
+                                ->whereNotIn('player_id', Auth::id())
                                 ->whereNotIn('status_id', CONTROL)
                                 ->whereNotIn('status_id', COMPLETE)
                                 ->where('user_id', Auth::id())
