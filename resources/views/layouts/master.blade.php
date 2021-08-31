@@ -92,29 +92,32 @@
                         </a>
                         @php
                             use App\Models\Task;
+                            use Illuminate\Support\Facades\URL;
+                            use Illuminate\Support\Facades\Route;
+                            use Illuminate\Support\Facades\Auth;
 
                             const CONTROL = 1;
                             const COMPLETE = 2;
 
                             $url = URL::previous();
-                            $route_name = collect(\Route::getRoutes())->first(function($route) use($url){
+                            $route_name = collect(Route::getRoutes())->first(function($route) use($url){
                                 return $route->matches(request()->create($url));
                             });
                             $my_tasks = Task::all()
                                 ->whereNotIn('status_id', CONTROL)
                                 ->whereNotIn('status_id', COMPLETE)
-                                ->where('player_id', \Auth::id())
+                                ->where('player_id', Auth::id())
                                 ->count();
 
                             $send_tasks = Task::all()
                                 ->whereNotIn('player_id', \Auth::id())
                                 ->whereNotIn('status_id', CONTROL)
                                 ->whereNotIn('status_id', COMPLETE)
-                                ->where('user_id', \Auth::id())
+                                ->where('user_id', Auth::id())
                                 ->count();
 
                             $control_tasks = Task::all()
-                                ->where('user_id', \Auth::id())
+                                ->where('user_id', Auth::id())
                                 ->where('status_id', CONTROL)
                                 ->count();
                         @endphp
