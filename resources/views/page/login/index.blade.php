@@ -47,10 +47,6 @@
                     </button>
                 </div>
             </form>
-
-            <p class="mb-1">
-                <a href="forgot-password.html">Забыли пароль?</a>
-            </p>
         </div>
         <!-- /.login-card-body -->
     </div>
