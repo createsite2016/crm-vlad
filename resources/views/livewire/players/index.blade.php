@@ -72,7 +72,7 @@ use App\Actions\DialogAction;
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="card card-primary">
-                    <form action="{{ route('user.players.update', [$player->id]) }}" method="post">
+                    <form action="{{ route('user.players.update', $player) }}" method="post">
                     <div class="card-header">
                         <h3 class="card-title">Изменение пользователя</h3>
                     </div>

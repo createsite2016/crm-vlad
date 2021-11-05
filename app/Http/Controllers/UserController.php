@@ -84,16 +84,15 @@ class UserController extends Controller
     }
 
     /**
-     * Обновление информации автомобиля.
+     * Обновление информации пользователя.
      *
      * @param UserUpdateRequest $request
-     * @param int $player
+     * @param User $player
      * @return RedirectResponse
      */
-    public function update(UserUpdateRequest $request, int $player): RedirectResponse
+    public function update(UserUpdateRequest $request, User $player): RedirectResponse
     {
-        $user = User::findOrFail($player);
-        $user->update($request->all());
+        $player->update($request->all());
 
         return redirect()->route('user.players.index');
     }
