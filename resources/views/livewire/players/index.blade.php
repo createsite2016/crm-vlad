@@ -53,7 +53,7 @@ use App\Actions\DialogAction;
                                     <a href="#" data-toggle="modal" data-target="#modal-{{ $player->id }}" class="btn btn-sm btn-primary">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="{{ route('user.players.destroy', $player->id) }}" class="btn btn-sm btn-danger"><i class="fas fa-user-times"></i></a>
+                                    <a href="{{ route('user.players.destroy', $player) }}" class="btn btn-sm btn-danger"><i class="fas fa-user-times"></i></a>
                                 </div>
                             </div>
                         </div>

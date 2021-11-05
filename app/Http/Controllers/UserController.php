@@ -70,15 +70,12 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param User $player
      * @return RedirectResponse
      */
-    public function destroy(int $id): RedirectResponse
+    public function destroy(User $player): RedirectResponse
     {
-        $player = User::find($id);
-        if ($player){
-            $player->delete();
-        }
+        $player->delete();
 
         return redirect()->route('user.players.index');
     }
