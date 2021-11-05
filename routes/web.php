@@ -65,7 +65,7 @@ Route::prefix('user')->middleware('auth')->group(function(){
     Route::get('devices/{device}', [DeviceController::class, 'destroy'])->name('user.devices.destroy');
 // исполнители
     Route::get('players', [UserController::class, 'players'])->name('user.players.index');
-    Route::get('players/{player}', [UserController::class, 'destroy'])->name('user.players.destroy');
+    Route::delete('players/{player}', [UserController::class, 'destroy'])->name('user.players.destroy');
     Route::patch('players/{player}', [UserController::class, 'update'])->name('user.players.update');
 // автомобили
     Route::get('cars', [CarController::class, 'index'])->name('user.cars.index');
