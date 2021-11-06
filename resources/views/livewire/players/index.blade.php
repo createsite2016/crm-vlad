@@ -126,11 +126,10 @@ use App\Actions\DialogAction;
                             @enderror
                             <select name="role_id" class="custom-select rounded-0">
                                 @foreach($roles as $role)
-                                    @if($player->role_id == $role->id)
-                                        <option selected value="{{ $role->id }}">{{ $role->name }}</option>
-                                        @continue
-                                    @endif
-                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    <option
+                                        {{ $player->role_id == $role->id ? ' selected' : '' }}
+                                        value="{{ $role->id }}">{{ $role->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -148,11 +147,10 @@ use App\Actions\DialogAction;
                             @enderror
                             <select name="city_id" class="custom-select rounded-0">
                                 @foreach($cities as $city)
-                                    @if($player->city_id == $city->id)
-                                        <option selected value="{{ $city->id }}">{{ $city->name }}</option>
-                                        @continue
-                                    @endif
-                                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                    <option
+                                        {{ $player->city_id == $city->id ? ' selected' : '' }}
+                                        value="{{ $city->id }}">{{ $city->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -170,11 +168,10 @@ use App\Actions\DialogAction;
                             @enderror
                             <select name="car_id" class="custom-select rounded-0">
                                 @foreach($cars as $car)
-                                    @if($player->car_id == $car->id)
-                                        <option selected value="{{ $car->id }}">{{ $car->name }}</option>
-                                        @continue
-                                    @endif
-                                    <option value="{{ $car->id }}">{{ $car->name }}</option>
+                                    <option
+                                        {{ $player->car_id == $car->id ? ' selected' : '' }}
+                                        value="{{ $car->id }}">{{ $car->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
